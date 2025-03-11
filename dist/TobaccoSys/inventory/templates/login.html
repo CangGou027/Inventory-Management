@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>库存管理系统登录</title>
+    <style>
+        body {
+            background: url("{% static 'images/background.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container { 
+            max-width: 400px; 
+            margin: 50px auto; 
+            padding: 20px;  
+            background: #e3f2fd;  /* 改为浅蓝色背景 */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 微调阴影效果 */
+        }
+        .form-group { margin-bottom: 15px; }
+        input {
+            width: calc(100% - 20px); /* 减少宽度增加边距 */
+            margin: 5px 10px; /* 增加左右边距 */
+            padding: 8px;
+        }
+        button {
+            width: calc(100% - 20px); /* 与输入框同宽 */
+            margin: 0 10px; /* 保持左右边距一致 */
+            background: #4CAF50; color: white; padding: 10px; border: none; width: 100%; }
+        
+        .error { color: red; margin-bottom: 10px; }
+
+    </style>
+</head>
+<body>
+    <!-- 在container div内添加主标题 -->
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 15px; color: #333;">烟酒进出货系统</h1>
+        <style>
+            h2 {
+                text-align: center;  /* 确保这个属性存在 */
+                margin-bottom: 20px;
+            }
+        </style>
+        <h2>用户登录</h2>  <!-- 应用了居中样式 -->
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}  <!-- 确保这个标签在form的最顶部 -->
+            <div class="form-group">
+                <input type="text" name="username" placeholder="用户名" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="密码" required>
+            </div>
+            <button type="submit">登录</button>
+        </form>
+    </div>
+</body>
+</html>

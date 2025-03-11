@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>酒水库存</title>
+    <style>
+        .navbar { 
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            background: #2196F3;  /* 同步修改颜色 */
+            padding: 15px; 
+        }
+        .navbar a { 
+            color: white;
+            text-decoration: none;
+            margin-right: 20px; 
+        }
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; 
+            padding: 20px; 
+        }
+        .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
+        .product-img { max-width: 200px; max-height: 200px; }
+        .action-buttons { margin-top: 15px; }
+        .edit-btn { background: #2196F3; padding: 5px 10px; color: white; text-decoration: none; }
+        .delete-btn { background: #f44336; padding: 5px 10px; color: white; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'product_list' %}">仓库一览</a>
+        <a href="{% url 'tobacco_list' %}">烟草仓库</a>
+        <a href="{% url 'liquor_list' %}">酒水仓库</a>
+        <a href="{% url 'upload_product' %}">上传新产品</a>
+        <a href="{% url 'logout' %}" style="margin-left: auto;">退出登录</a>
+    </div>
+
+    <h2>酒水库存</h2>
+    
+    <div class="product-grid">
+        {% for product in products %}
+        {% if product.category == 'liquor' %}  <!-- 新增类别过滤 -->
+        <div class="product-card">
+            <h3>{{ product.name }}</h3>
+            <p>类别：{{ product.get_category_display }}</p>
+            <p>库存量：{{ product.quantity }}</p>
+            <p>生产日期：{{ product.production_date }}</p>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
+            {% endif %}
+            <div class="action-buttons">
+                <a href="{% url 'edit_product' product.id %}" class="edit-btn">编辑</a>
+                <a href="{% url 'delete_product' product.id %}" class="delete-btn" 
+                   onclick="return confirm('确认删除该商品？')">删除</a>
+            </div>
+        </div>
+        {% endif %}  <!-- 结束类别过滤 -->
+        {% endfor %}
+    </div>
+</body>
+</html>
